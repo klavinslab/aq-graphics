@@ -37,7 +37,7 @@ This library provide methods for building and rendering SVG graphics in Aquarium
 
 **Example 2**
 
-<img src="/docs/_images/transfer_example_3.png" alt="Transfer Example 1" width="300"/>
+<img src="/docs/_images/transfer_example_2.png" alt="Transfer Example 1" width="300"/>
 
 ```ruby
 def show_calls myops, band_choices
