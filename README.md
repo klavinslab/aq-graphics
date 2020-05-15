@@ -2,6 +2,8 @@
 
 This library provide methods for building and rendering SVG graphics in Aquarium protocols.
 
+**Example 1**
+
 <img src="/docs/_images/transfer_example_1.png" alt="Transfer Example 1" width="300"/>
 
 ```ruby
