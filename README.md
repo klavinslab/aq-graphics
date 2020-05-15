@@ -2,6 +2,8 @@
 
 This library provide methods for building and rendering SVG graphics in Aquarium protocols.
 
+<img src="/docs/_images/transfer_example_1.png" alt="Transfer Example 1" width="600"/>
+
 ```ruby
   def make_transfer(from, to, spacing, top_label, bottom_label)
     to.align_with(from, 'center-right').align!('center-left')
