@@ -1,3 +1,3 @@
-# About this workflow
+# Aquarium Graphics Library
 
-Please describe how to use your workflow here.
+This library provide methods for building and rendering SVG graphics in Aquarium protocols.
