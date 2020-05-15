@@ -34,3 +34,58 @@ This library provide methods for building and rendering SVG graphics in Aquarium
     note display_svg(img, 0.75)
   end
 ```
+
+**Example 2**
+
+```ruby
+def show_calls myops, band_choices
+    myops.each do |op|
+      kit_summary = {}
+
+      this_kit = op.temporary[:input_kit]
+      this_item = op.input(INPUT).item
+      this_unit = op.temporary[:input_unit]
+      this_sample = op.temporary[:input_sample]
+
+      grid = SVGGrid.new(MUTATIONS_LABEL.length, 1, 90, 10)
+      categories = []
+      PREV_COMPONENTS.each.with_index do |this_component, i|
+        alias_label = op.input_refs(INPUT)[i]
+        strip_label = self.tube_label(this_kit, this_unit, this_component, this_sample)
+        strip = make_strip(strip_label, COLORS[i] + "strip")
+        band_choice = this_item.get(make_call_key(alias_label))
+        codon_label = label(MUTATIONS_LABEL[i], "font-size".to_sym => 25)
+        codon_label.align_with(strip, 'center-bottom')
+        codon_label.align!('center-top').translate!(0, 30)
+        category = this_item.get(make_call_category_key(alias_label))
+        kit_summary[MUTATIONS_LABEL[i]] = {:alias => alias_label, :category => category.to_s, :call => band_choice.to_s}
+        tokens = category.split(' ')
+        tokens.push("") if tokens.length == 1
+        category_label = two_labels(*tokens)
+        category_label.scale!(0.75)
+        category_label.align!('center-top')
+        category_label.align_with(codon_label, 'center-bottom')
+        category_label.translate!(0, 10)
+        bands = band_choices[band_choice.to_sym][:bands]
+        grid.add(strip, i, 0)
+        grid.add(codon_label, i, 0)
+        grid.add(category_label, i, 0)
+        bands.each do |band|
+          grid.add(band, i, 0)
+        end
+      end
+
+      op.associate(:results, kit_summary)
+      op.input(INPUT).item.associate(:results, kit_summary)
+      op.temporary[:results] = kit_summary
+
+      img = SVGElement.new(children: [grid], boundx: 600, boundy: 350)
+      img.translate!(15)
+      show do
+        refs = op.input_refs(INPUT)
+        title "Here is the summary of your results for <b>#{refs[0]}-#{refs[-1]}</b>"
+        note display_svg(img)
+      end
+    end
+  end
+```
